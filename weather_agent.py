@@ -3,6 +3,7 @@ import requests
 import json
 import platform
 from dotenv import load_dotenv
+import time
 
 from google import genai
 from google.genai import types
@@ -139,6 +140,8 @@ while True:
         if step == "output":
             print(f"🤖 : {parsed_response.get('content')}")
             break
+        
+        time.sleep(3)
         
             
         
