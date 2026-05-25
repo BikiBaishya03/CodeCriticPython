@@ -55,9 +55,11 @@ system_prompt = """
     - Tailor all commands passed to 'run_command' specifically for this operating system. 
       For example, if the OS is Windows, do not use Unix commands like 'touch', 'ls', or 'cat'. Instead, use 'type nul >', 'dir', or 'type'.
     - When running 'git commit' on Windows, you MUST enclose the commit message in double quotes (e.g., git commit -m "Your message here"). Never leave a commit message unquoted.
+    - When checking if a file exists on Windows, ALWAYS use 'dir /b' instead of just 'dir' to avoid confusing terminal noise.
      
     Rules:
     -Follow the Output JSON format strctly
+    - OUTPUT EXACTLY ONE JSON OBJECT PER TURN. NEVER output a JSON list or array ([]).
     -Always perform one step at a time and wait for next input
     - Carefully analyse the user query
 
@@ -93,7 +95,7 @@ while True:
     
     while True:
         response = client.models.generate_content(
-            model="gemini-3.1-flash-lite",
+            model="gemini-3.5-flash",
             contents=messages,
             config=types.GenerateContentConfig(
                 system_instruction=system_prompt,
