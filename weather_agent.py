@@ -4,6 +4,7 @@ import json
 import platform
 from dotenv import load_dotenv
 import time
+import subprocess
 
 from google import genai
 from google.genai import types
@@ -21,7 +22,7 @@ client = genai.Client()
 
 @observe()
 def run_command(command : str):
-    result=os.system(command=command)
+    result=subprocess.getoutput(command)
     return str(result)
 
 @observe()
@@ -96,7 +97,7 @@ while True:
     
     while True:
         response = client.models.generate_content(
-            model="gemini-3.5-flash",
+            model="gemini-3.1-flash-lite",
             contents=messages,
             config=types.GenerateContentConfig(
                 system_instruction=system_prompt,
@@ -104,7 +105,17 @@ while True:
             )
         )
         
-        parsed_response = json.loads(response.text)
+        try:
+            # Try to parse the JSON normally
+            parsed_response = json.loads(response.text)
+        except json.JSONDecodeError as e:
+            # If the AI breaks the JSON rules, catch the error, print what it actually said, and skip the turn
+            print(f"⚠️ AI returned invalid JSON. Raw output was:\n{response.text}")
+            
+            # Send an error message back to the AI so it knows it messed up and can try again
+            error_json = json.dumps({ "step": "observe", "output": "System Error: You returned invalid JSON. You must return EXACTLY ONE valid JSON object per turn. Do not return multiple objects." })
+            messages.append({"role": "user", "parts": [{"text": error_json}]})
+            continue
         
         messages.append({"role":"model" , "parts":[{"text" :response.text}]})
         
@@ -141,7 +152,7 @@ while True:
             print(f"🤖 : {parsed_response.get('content')}")
             break
         
-        time.sleep(3)
+        #time.sleep(3)
         
             
         
