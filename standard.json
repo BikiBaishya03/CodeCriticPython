@@ -1,0 +1,6 @@
+{
+  "python": "Follow PEP 8 guidelines. Prefer list comprehensions over standard for loops for simple array transformations. Never use mutable default arguments like 'def func(my_list=[])'. Use context managers ('with' statements) for file operations. Add type hints for function arguments and return types where possible.",
+  "java": "Always use StringBuilder instead of String concatenation (+) inside loops. Ensure all resources are closed using try-with-resources. For enterprise applications, favor dependency injection and proper JPA entity annotations. In algorithmic problem-solving, prioritize O(N) or O(N log N) time complexity and use fast I/O if necessary.",
+  "javascript": "Always use 'let' or 'const', never 'var'. Use strict equality (===) instead of loose equality (==). Prefer async/await over raw Promises. When building UIs, avoid mutating state directly and leverage functional components with proper dependency arrays in hooks.",
+  "cpp": "Prefer smart pointers (std::unique_ptr, std::shared_ptr) over raw pointers to prevent memory leaks. Pass large objects by const reference to avoid unnecessary copying. Avoid using 'using namespace std;' in the global scope."
+}
