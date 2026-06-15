@@ -15,5 +15,5 @@ To run this microservice locally, you need Python 3 installed.
 
 1. **Clone the repository and navigate to the directory:**
    ```bash
-   git clone <your-repo-url>
-   cd <your-repo-name>
+   git clone https://github.com/BikiBaishya03/CodeCriticPython
+   cd CodeCriticPython
